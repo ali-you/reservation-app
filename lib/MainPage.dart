@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:reservation/LoginPage.dart';
 import 'Product.dart';
 
 class MainPage extends StatefulWidget {
@@ -103,6 +105,8 @@ class _MainPageState extends State<MainPage> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: (){
+            FirebaseAuth.instance.signOut().then((value) =>
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage())));
           },
           child: Icon(Icons.add)
       ),

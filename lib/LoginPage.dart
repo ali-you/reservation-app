@@ -6,8 +6,8 @@ import './Animation/FadeAnimation.dart';
 
 class LoginPage extends StatelessWidget {
 
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  TextEditingController emailController;
+  TextEditingController passwordController;
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
 
@@ -39,6 +39,7 @@ class LoginPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+
           Container(
             height: 200,
             child: Stack(
@@ -61,7 +62,6 @@ class LoginPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
-              key: _loginFormKey,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 FadeAnimation(
@@ -86,53 +86,53 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.transparent,
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey[100],
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _loginFormKey,
+                        child: Column(
+                          children: <Widget>[
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: emailController,
+                                style: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: emailValidator,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.person_outline, color: Colors.deepPurple),
+                                ),
                               ),
                             ),
-                          ),
-                          child: TextFormField(
-                            controller: emailController,
-                            style: TextStyle(color: Colors.white),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: emailValidator,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Email",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              icon: Icon(Icons.person_outline, color: Colors.deepPurple),
-                            ),
-                          ),
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: passwordController,
+                                obscureText: true ,
+                                validator: passwordValidator,
+                                style: TextStyle(color: Colors.white),
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (v) => FocusScope.of(context).unfocus(),
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.lock_outline, color: Colors.deepPurple)
+                                ),
+                              ),
+                            )
+
+                          ],
                         ),
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey[100],
-                              ),
-                            ),
-                          ),
-                          child: TextFormField(
-                            controller: passwordController,
-                            obscureText: true ,
-                            validator: passwordValidator,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey),
-                              icon: Icon(Icons.lock_outline, color: Colors.deepPurple)
-                            ),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ),
@@ -155,22 +155,42 @@ class LoginPage extends StatelessWidget {
                 ),
                 FadeAnimation(
                   1,
-                  Builder(
-                    child: Container(
+                    Container(
                       height: 50,
                       margin: EdgeInsets.symmetric(horizontal: 60),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Color.fromRGBO(49, 39, 79, 1),
                       ),
-                      child: Center(
-                        child: Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white),
+                      child: Material(
+                        elevation: 5,
+                        color: Color.fromRGBO(49, 39, 79, 1),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                        child: Builder(
+                          builder: (context) => InkWell(
+                            borderRadius: BorderRadius.circular(50),
+                            onTap: (){
+                              if (_loginFormKey.currentState.validate()) {
+                                FirebaseAuth.instance
+                                    .signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController.text)
+                                    .then((value) =>
+                                    Navigator.pushReplacement(
+                                        context, MaterialPageRoute(
+                                        builder: (context) => MainPage())));
+                              }
+                            },
+                            child:  Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ),
                 SizedBox(
                   height: 20.0,

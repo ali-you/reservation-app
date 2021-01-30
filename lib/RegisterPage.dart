@@ -2,6 +2,50 @@ import 'package:flutter/material.dart';
 import './Animation/FadeAnimation.dart';
 
 class RegisterPage extends StatelessWidget {
+  TextEditingController firstNameController;
+  TextEditingController lastNameController;
+  TextEditingController phoneNumberController;
+  TextEditingController emailController;
+  TextEditingController passwordController;
+  TextEditingController confirmPasswordController;
+  final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
+
+
+
+  String emailValidator(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'Email format is invalid';
+    } else {
+      return null;
+    }
+  }
+
+  String passwordValidator(String value) {
+    if (value.length < 8) {
+      return 'Password must be longer than 8 characters';
+    } else {
+      return null;
+    }
+  }
+
+  String nameValidator(String value){
+    Pattern pattern = r'^[A-Z a-z]*$';
+    RegExp regExp = new RegExp(pattern);
+    if (!regExp.hasMatch(value))
+      return "Invalid name";
+    else if (value.length < 3)
+      return "Name is too short";
+    else return null;
+  }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,23 +75,10 @@ class RegisterPage extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
+
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                FadeAnimation(
-                  1,
-                  Text(
-                    "Hello there, \nwelcome back",
-                    style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 40,
-                ),
                 FadeAnimation(
                   1,
                   Container(
@@ -56,62 +87,128 @@ class RegisterPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.transparent,
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey[100],
-                              ),
-                            ),
-                          ),
-                          child: TextField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Username",
-                              hintStyle: TextStyle(color: Colors.grey),
-                              icon: Icon(Icons.person_outline, color: Colors.deepPurple),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey[100],
-                              ),
-                            ),
-                          ),
-                          child: TextField(
-                            obscureText: true ,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _registerFormKey,
+                        child: Column(
+                          children: <Widget>[
 
-                                hintText: "Password",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                icon: Icon(Icons.lock_outline, color: Colors.deepPurple)
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: firstNameController,
+                                style: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.text,
+                                validator: nameValidator,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  hintText: "First name",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.person, color: Colors.deepPurple),
+                                ),
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Center(
-                  child: FadeAnimation(
-                    1,
-                    Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        color: Colors.pink[200],
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: lastNameController,
+                                style: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.text,
+                                validator: nameValidator,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  hintText: "Last name",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.person, color: Colors.deepPurple),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: phoneNumberController,
+                                style: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.phone,
+                                validator: nameValidator,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  hintText: "Phone number",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.smartphone, color: Colors.deepPurple),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: emailController,
+                                style: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: emailValidator,
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(color: Colors.grey),
+                                  prefixIcon: Icon(Icons.email, color: Colors.deepPurple),
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: passwordController,
+                                obscureText: true ,
+                                validator: passwordValidator,
+                                style: TextStyle(color: Colors.white),
+                                textInputAction: TextInputAction.next,
+                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    hintText: "Password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: Icon(Icons.lock, color: Colors.deepPurple)
+                                ),
+                              ),
+                            ),
+
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                              child: TextFormField(
+                                controller: confirmPasswordController,
+                                obscureText: true ,
+                                validator: passwordValidator,
+                                style: TextStyle(color: Colors.white),
+                                textInputAction: TextInputAction.done,
+                                onFieldSubmitted: (v) => FocusScope.of(context).unfocus(),
+                                decoration: InputDecoration(
+                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    hintText: "Confirm password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: Icon(Icons.lock, color: Colors.deepPurple)
+                                ),
+                              ),
+                            )
+
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -130,24 +227,8 @@ class RegisterPage extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Login",
+                        "Register",
                         style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                FadeAnimation(
-                  1,
-                  Center(
-                    child: InkWell(
-                      child: Text(
-                        "Create Account",
-                        style: TextStyle(
-                          color: Colors.pink[200],
-                        ),
                       ),
                     ),
                   ),
