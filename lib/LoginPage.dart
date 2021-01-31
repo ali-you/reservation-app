@@ -6,9 +6,12 @@ import './Animation/FadeAnimation.dart';
 
 class LoginPage extends StatelessWidget {
 
-  TextEditingController emailController;
-  TextEditingController passwordController;
-  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+//  var emailController = new TextEditingController();
+//  var passwordController = new TextEditingController();
+TextEditingController emailController = new TextEditingController();
+TextEditingController passwordController = new TextEditingController();
+
+final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
 
   String emailValidator(String value) {
@@ -23,8 +26,8 @@ class LoginPage extends StatelessWidget {
   }
 
   String passwordValidator(String value) {
-    if (value.length < 8) {
-      return 'Password must be longer than 8 characters';
+    if (value.length < 6) {
+      return 'Password must be longer than 6 characters';
     } else {
       return null;
     }
@@ -106,7 +109,7 @@ class LoginPage extends StatelessWidget {
                                   focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
                                   hintText: "Email",
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.person_outline, color: Colors.deepPurple),
+                                  prefixIcon: Icon(Icons.person_outline, color: Colors.deepPurple[200]),
                                 ),
                               ),
                             ),
@@ -125,7 +128,7 @@ class LoginPage extends StatelessWidget {
                                     focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
                                     hintText: "Password",
                                     hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.lock_outline, color: Colors.deepPurple)
+                                  prefixIcon: Icon(Icons.lock_outline, color: Colors.deepPurple[200])
                                 ),
                               ),
                             )
@@ -198,7 +201,7 @@ class LoginPage extends StatelessWidget {
                 FadeAnimation(
                   1,
                   Center(
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
                       },

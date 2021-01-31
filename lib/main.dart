@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:reservation/LoginPage.dart';
 import 'package:reservation/MainPage.dart';
-import './Animation/FadeAnimation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 void main() {
+//  FirebaseAuth.instance.currentUser().then((currentUser) => {
+//    if(currentUser == null)
+//      runApp(LoginPage())
+//    else
+//      runApp(MainPage())
+//  });
   runApp(MyApp());
 }
 
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Reservation',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -36,7 +41,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   @override
   void initState() {
@@ -50,12 +54,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // TODO: implement initState
     super.initState();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   @override

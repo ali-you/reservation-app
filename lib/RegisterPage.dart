@@ -1,17 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:reservation/MainPage.dart';
 import './Animation/FadeAnimation.dart';
 
 class RegisterPage extends StatelessWidget {
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
-  TextEditingController phoneNumberController;
-  TextEditingController emailController;
-  TextEditingController passwordController;
-  TextEditingController confirmPasswordController;
+  TextEditingController firstNameController = new TextEditingController();
+  TextEditingController lastNameController = new TextEditingController();
+  TextEditingController phoneNumberController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController confirmPasswordController = new TextEditingController();
   final GlobalKey<FormState> _registerFormKey = GlobalKey<FormState>();
-
-
-
   String emailValidator(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -24,27 +24,23 @@ class RegisterPage extends StatelessWidget {
   }
 
   String passwordValidator(String value) {
-    if (value.length < 8) {
-      return 'Password must be longer than 8 characters';
+    if (value.length < 6) {
+      return 'Password must be longer than 6 characters';
     } else {
       return null;
     }
   }
 
-  String nameValidator(String value){
+  String nameValidator(String value) {
     Pattern pattern = r'^[A-Z a-z]*$';
     RegExp regExp = new RegExp(pattern);
     if (!regExp.hasMatch(value))
       return "Invalid name";
     else if (value.length < 3)
       return "Name is too short";
-    else return null;
+    else
+      return null;
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +56,21 @@ class RegisterPage extends StatelessWidget {
               children: <Widget>[
                 Positioned(
                     child: FadeAnimation(
-                      1,
-                      Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage("assets/images/1.png"),
-                          ),
-                        ),
+                  1,
+                  Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage("assets/images/1.png"),
                       ),
-                    ))
+                    ),
+                  ),
+                ))
               ],
             ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -92,7 +87,6 @@ class RegisterPage extends StatelessWidget {
                         key: _registerFormKey,
                         child: Column(
                           children: <Widget>[
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
@@ -101,17 +95,22 @@ class RegisterPage extends StatelessWidget {
                                 keyboardType: TextInputType.text,
                                 validator: nameValidator,
                                 textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
                                   hintText: "First name",
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.person, color: Colors.deepPurple),
+                                  prefixIcon: Icon(Icons.person,
+                                      color: Colors.deepPurple[200]),
                                 ),
                               ),
                             ),
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
@@ -120,36 +119,45 @@ class RegisterPage extends StatelessWidget {
                                 keyboardType: TextInputType.text,
                                 validator: nameValidator,
                                 textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
                                   hintText: "Last name",
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.person, color: Colors.deepPurple),
+                                  prefixIcon: Icon(Icons.person,
+                                      color: Colors.deepPurple[200]),
                                 ),
                               ),
                             ),
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
                                 controller: phoneNumberController,
                                 style: TextStyle(color: Colors.white),
                                 keyboardType: TextInputType.phone,
-                                validator: nameValidator,
                                 textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
                                   hintText: "Phone number",
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.smartphone, color: Colors.deepPurple),
+                                  prefixIcon: Icon(Icons.smartphone,
+                                      color: Colors.deepPurple[200]),
                                 ),
                               ),
                             ),
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
@@ -158,55 +166,68 @@ class RegisterPage extends StatelessWidget {
                                 keyboardType: TextInputType.emailAddress,
                                 validator: emailValidator,
                                 textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 1.25)),
                                   hintText: "Email",
                                   hintStyle: TextStyle(color: Colors.grey),
-                                  prefixIcon: Icon(Icons.email, color: Colors.deepPurple),
+                                  prefixIcon: Icon(Icons.email,
+                                      color: Colors.deepPurple[200]),
                                 ),
                               ),
                             ),
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
                                 controller: passwordController,
-                                obscureText: true ,
+                                obscureText: true,
                                 validator: passwordValidator,
                                 style: TextStyle(color: Colors.white),
                                 textInputAction: TextInputAction.next,
-                                onFieldSubmitted: (v) => FocusScope.of(context).nextFocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).nextFocus(),
                                 decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white, width: 1.25)),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white, width: 1.25)),
                                     hintText: "Password",
                                     hintStyle: TextStyle(color: Colors.grey),
-                                    prefixIcon: Icon(Icons.lock, color: Colors.deepPurple)
-                                ),
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Colors.deepPurple[200])),
                               ),
                             ),
-
                             Container(
                               padding: EdgeInsets.all(10.0),
                               child: TextFormField(
                                 controller: confirmPasswordController,
-                                obscureText: true ,
+                                obscureText: true,
                                 validator: passwordValidator,
                                 style: TextStyle(color: Colors.white),
                                 textInputAction: TextInputAction.done,
-                                onFieldSubmitted: (v) => FocusScope.of(context).unfocus(),
+                                onFieldSubmitted: (v) =>
+                                    FocusScope.of(context).unfocus(),
                                 decoration: InputDecoration(
-                                    enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
-                                    focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 1.25)),
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white, width: 1.25)),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.white, width: 1.25)),
                                     hintText: "Confirm password",
                                     hintStyle: TextStyle(color: Colors.grey),
-                                    prefixIcon: Icon(Icons.lock, color: Colors.deepPurple)
-                                ),
+                                    prefixIcon: Icon(Icons.lock,
+                                        color: Colors.deepPurple[200])),
                               ),
                             )
-
                           ],
                         ),
                       ),
@@ -225,10 +246,53 @@ class RegisterPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       color: Color.fromRGBO(49, 39, 79, 1),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Register",
-                        style: TextStyle(color: Colors.white),
+                    child: Material(
+                      elevation: 5,
+                      color: Color.fromRGBO(49, 39, 79, 1),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Builder(
+                        builder: (context) => InkWell(
+                          borderRadius: BorderRadius.circular(50),
+                          onTap: () {
+                            if (_registerFormKey.currentState.validate()) {
+                              if (passwordController.text == confirmPasswordController.text) {
+                                FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: emailController.text,
+                                        password: passwordController.text)
+                                    .then(
+                                      (currentUser) => Firestore.instance
+                                          .collection("Patient")
+                                          .document("test")
+                                          .setData({
+                                        "p#": currentUser.user.uid,
+//                                        "firstName": firstNameController.text,
+//                                        "lastName": lastNameController.text,
+//                                        "email": emailController.text,
+//                                        "phoneNumber": phoneNumberController.text
+                                      }).then(
+                                        (result) =>
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        MainPage()),
+                                                (route) => false),
+                                      ),
+                                    )
+                                    .catchError((err) => print(err))
+                                    .catchError((err) => print(err));
+                              }
+                            }
+                          },
+                          child: Center(
+                            child: Text(
+                              "Register",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
