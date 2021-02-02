@@ -181,7 +181,7 @@ final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
                                     .then((value) =>
                                     Navigator.pushReplacement(
                                         context, MaterialPageRoute(
-                                        builder: (context) => MainPage())));
+                                        builder: (context) => MainPage(value.user.uid))));
                               }
                             },
                             child:  Center(

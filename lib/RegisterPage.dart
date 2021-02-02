@@ -264,20 +264,20 @@ class RegisterPage extends StatelessWidget {
                                     .then(
                                       (currentUser) => Firestore.instance
                                           .collection("Patient")
-                                          .document("test")
+                                          .document(currentUser.user.uid).collection("des").document("1")
                                           .setData({
                                         "p#": currentUser.user.uid,
-//                                        "firstName": firstNameController.text,
-//                                        "lastName": lastNameController.text,
-//                                        "email": emailController.text,
-//                                        "phoneNumber": phoneNumberController.text
+                                        "firstName": firstNameController.text,
+                                        "lastName": lastNameController.text,
+                                        "email": emailController.text,
+                                        "phoneNumber": phoneNumberController.text
                                       }).then(
                                         (result) =>
                                             Navigator.pushAndRemoveUntil(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        MainPage()),
+                                                        MainPage(currentUser.user.uid)),
                                                 (route) => false),
                                       ),
                                     )

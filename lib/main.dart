@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Reservation',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'reservation'),
@@ -42,21 +42,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+//  @override
+//  void initState() {
+//
+//    FirebaseAuth.instance.currentUser().then((currentUser) => {
+//      if (currentUser == null)
+//        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()))
+//      else{
+//        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(currentUser.uid)))
+//      }
+//    }).catchError((err) => print(err));
+//
+//    // TODO: implement initState
+//    super.initState();
+//  }
+
   @override
-  void initState() {
+  Widget build(BuildContext context) {
     FirebaseAuth.instance.currentUser().then((currentUser) => {
       if (currentUser == null)
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()))
       else{
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()))
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(currentUser.uid)))
       }
     }).catchError((err) => print(err));
 
-    // TODO: implement initState
-    super.initState();
-  }
+    return Scaffold(
+      backgroundColor: const Color(0x0f052f),
+      body: Center(
 
-  @override
-  Widget build(BuildContext context) {
+      ),
+    );
   }
 }
