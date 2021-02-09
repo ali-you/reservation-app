@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reservation/MainPage.dart';
 import 'package:reservation/shoppingBasketPage.dart';
 
 class DoctorPage extends StatefulWidget {
-  String drNumber, image, firstName, lastName, degree;
+  String drNumber, image, firstName, lastName, degree, weekday, uid;
+
 
 
   DoctorPage(
-      this.drNumber, this.image, this.firstName, this.lastName, this.degree);
+      this.uid, this.drNumber, this.image, this.firstName, this.lastName, this.degree, this.weekday);
 
   @override
   _State createState() => _State();
@@ -40,8 +42,7 @@ class _State extends State<DoctorPage> {
             onPressed: () {
               Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => ShoppingBasketPage(widget.drNumber)));
+                  MaterialPageRoute(builder: (context) => ShoppingBasketPage(widget.uid)));
             },
           )
         ],
@@ -64,6 +65,9 @@ class _State extends State<DoctorPage> {
                         style: TextStyle(fontSize: 25), textAlign: TextAlign.center),
                   ),
 
+                  Text(widget.degree,
+                      style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
+
                   Divider(),
 
                   Align(
@@ -85,10 +89,13 @@ class _State extends State<DoctorPage> {
 
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("Time: " + snapshot.data.documents[0]["dur"],
-                        style: TextStyle(fontSize: 20, color: Colors.grey[900]),
-                        textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.center),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("Time:   " + widget.weekday + "     " + snapshot.data.documents[0]["dur"],
+                          style: TextStyle(fontSize: 20, color: Colors.grey[900]),
+                          textDirection: TextDirection.rtl,
+                          textAlign: TextAlign.center),
+                    ),
                   ),
 
                   Divider(),
@@ -114,6 +121,10 @@ class _State extends State<DoctorPage> {
                               builder: (context) => InkWell(
                                 borderRadius: BorderRadius.circular(30),
                                 onTap: () {
+                                  Firestore.instance.collection("Patient")
+                                  .document(widget.uid).collection("des").document("1").updateData({
+                                    "res": widget.drNumber
+                                  });
 //                                  if(!ShoppingBasketData.getInstance().basketItems.contains(_product))
 //                                    ShoppingBasketData.getInstance()
 //                                        .basketItems

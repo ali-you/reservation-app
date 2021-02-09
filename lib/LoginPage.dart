@@ -10,6 +10,7 @@ class LoginPage extends StatelessWidget {
 //  var passwordController = new TextEditingController();
 TextEditingController emailController = new TextEditingController();
 TextEditingController passwordController = new TextEditingController();
+String uid;
 
 final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
@@ -179,9 +180,12 @@ final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
                                     email: emailController.text,
                                     password: passwordController.text)
                                     .then((value) =>
+                                    uid = value.user.uid
+                                    ).then((value) =>
                                     Navigator.pushReplacement(
                                         context, MaterialPageRoute(
-                                        builder: (context) => MainPage(value.user.uid))));
+                                        builder: (context) => MainPage(uid)))
+                                );
                               }
                             },
                             child:  Center(

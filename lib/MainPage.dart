@@ -8,11 +8,12 @@ import 'package:http/http.dart';
 import 'package:reservation/Doctor.dart';
 import 'package:reservation/LoginPage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:reservation/shoppingBasketPage.dart';
 
 import 'DoctorPage.dart';
 
 class MainPage extends StatefulWidget {
-  String uid;
+  final String uid;
   MainPage(this.uid);
 
   @override
@@ -111,7 +112,9 @@ class _MainPageState extends State<MainPage> {
               color: Colors.black54,
             ),
             onPressed: () {
-
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ShoppingBasketPage(widget.uid)));
             },
           )
         ],
@@ -138,11 +141,13 @@ class _MainPageState extends State<MainPage> {
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(
                               builder: (context) => DoctorPage(
+                                widget.uid,
                                 snapshot.data.documents[index]["drNumber"],
                                 snapshot.data.documents[index]["image"],
                                 snapshot.data.documents[index]["firstName"],
                                 snapshot.data.documents[index]["lastName"],
                                 snapshot.data.documents[index]["degree"],
+                                snapshot.data.documents[index]["weekday"]
                               )));
                         },
                         child: ListTile(

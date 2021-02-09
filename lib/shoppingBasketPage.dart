@@ -1,20 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:reservation/shoppingBasketCard.dart';
 import 'package:reservation/shoppingBasketData.dart';
 
 class ShoppingBasketPage extends StatefulWidget {
-  String drNumber;
-  ShoppingBasketPage(this.drNumber);
+  String pNumber;
+  ShoppingBasketPage(this.pNumber);
   @override
   _ShoppingBasketPageState createState() => _ShoppingBasketPageState();
 }
 
 class _ShoppingBasketPageState extends State<ShoppingBasketPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Shopping Basket", style: TextStyle(color: Colors.black)),
+        title: Text("Appointments", style: TextStyle(color: Colors.black)),
         centerTitle: true,
         leading: InkWell(
             onTap: () {
@@ -27,20 +29,20 @@ class _ShoppingBasketPageState extends State<ShoppingBasketPage> {
         backgroundColor: Colors.deepPurple,
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(5),
-        child: ListView.builder(
-            itemCount: ShoppingBasketData.getInstance().basketItems.length,
-            itemBuilder: (context, position) {
-              return ShoppingBasketCard(
-                  ShoppingBasketData.getInstance().basketItems[position], removeItem, position);
-            }),
+      body: StreamBuilder(
+        stream: Firestore.instance.collection("Patient").document(widget.pNumber).collection("des").snapshots(),
+        builder: (context, snapshot){
+          return Padding(
+            padding: EdgeInsets.all(5),
+            child: ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, position) {
+                  return ShoppingBasketCard(
+                      snapshot.data.documents[0]["res"]);
+                }),
+          );
+        },
       ),
     );
-  }
-  void removeItem(int index){
-    setState(() {
-      ShoppingBasketData.getInstance().basketItems.removeAt(index);
-    });
   }
 }

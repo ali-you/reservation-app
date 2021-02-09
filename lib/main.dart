@@ -6,17 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 void main() {
-//  FirebaseAuth.instance.currentUser().then((currentUser) => {
-//    if(currentUser == null)
-//      runApp(LoginPage())
-//    else
-//      runApp(MainPage())
-//  });
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -41,21 +34,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-//  @override
-//  void initState() {
-//
-//    FirebaseAuth.instance.currentUser().then((currentUser) => {
-//      if (currentUser == null)
-//        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()))
-//      else{
-//        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage(currentUser.uid)))
-//      }
-//    }).catchError((err) => print(err));
-//
-//    // TODO: implement initState
-//    super.initState();
-//  }
 
   @override
   Widget build(BuildContext context) {

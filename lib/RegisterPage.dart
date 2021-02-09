@@ -266,7 +266,7 @@ class RegisterPage extends StatelessWidget {
                                           .collection("Patient")
                                           .document(currentUser.user.uid).collection("des").document("1")
                                           .setData({
-                                        "p#": currentUser.user.uid,
+                                        "pNumber": currentUser.user.uid,
                                         "firstName": firstNameController.text,
                                         "lastName": lastNameController.text,
                                         "email": emailController.text,
